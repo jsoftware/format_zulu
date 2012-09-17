@@ -1,0 +1,713 @@
+LABTITLE=: 'Strings conversion package'
+
+NB. =========================================================
+Lab Section INTRO
+
+Addon: zulu - converts strings between different formats.
+ The four supported formats are:
+      b - boxed
+      f - LF-separated
+      o - open
+      x - matrix
+)
+NB. =========================================================
+Lab Section SANDBOX
+
+To make a sandbox of sample nouns to experiment with...
+)
+cocurrent 'base'
+clear ''
+load 'format/zulu'
+
+list names_zulu_ 0
+
+NB. =========================================================
+Lab Section SANDBOX2
+
+The nouns in locale _zulu_ fall into these groups:
+ ------------------------------------------------------------
+    b-list  o-list  f-list  x-list  description
+ ------------------------------------------------------------
+ 1. Zulub   Zuluo   Zuluf   Zulux  the IPA* (capitalized)
+ 2. zulub   zuluo   zuluf   zulux  the IPA (lowercase)
+ 3. Zub     Zuo     Zuf     Zux    1st 3 entries of Zulub etc
+ 4. zub     zuo     zuf     zux    ditto (lowercase)
+ 5. z1b     z1o     z1f     z1x    1st entry only of zub etc
+ 6. z0b     z0o     z0f     z0x    empty list (no entries)
+ ------------------------------------------------------------
+  * - IPA = International Phonetic Alphabet.
+)
+
+NB. =========================================================
+Lab Section SANDBOX3
+
+Nouns: zub  zuf  zuo  zux -are less unwieldy for experiments
+than the "full-blown" list: zulub (ditto Zulub).
+
+Nouns: z1b  z1f  z1o  z1x  z0b  z0f  z0o  z0x -are provided
+ to verify that any verb you develop also works with
+ "trivial" lists. (Sometimes it doesn't!)
+
+Here are the six distinct lists (in b-list format)...
+)
+Zulub
+zulub
+Zub
+zub
+z1b
+z0b
+
+NB. =========================================================
+Lab Section VISIBLE
+
+The sample nouns all reside in locale _zulu_ .
+
+But loading zulu.ijs has run: coinsert 'zulu'
+ to make the _zulu_ nouns visible in your current locale,
+ -which happens to be locale _base_ .
+)
+coname''
+copath coname''
+type 'zub'
+list names 0
+list names_zulu_ 0
+
+NB. =========================================================
+Lab Section VISI2
+
+For each of the 6 distinct lists:
+ Zulu*	-the IPA (capitalized)
+ zulu*	-the IPA (lowercase)
+ Zu*	-1st 3 entries of IPA (capitalized)
+ zu*	-ditto (lowercase)
+ z1*	-1st entry only of IPA (lowercase)
+ z0*	-empty list (no entries)
+
+locale _zulu_ has the same (list) content in these 4 formats:
+ Names ending in -b        -boxed strings.
+ Names ending in -f        -LF-separated strings.
+ Names ending in -o        -open strings.
+ Names ending in -x        -2D matrix of strings.
+)
+
+NB. =========================================================
+Lab Section VISI3
+
+For example, here is the list: zu* in each of the 4 formats:
+)
+zub
+zuf
+zuo
+zux
+
+NB. =========================================================
+Lab Section BOFX
+
+Simply typing the noun's name (=the pronoun) does not show
+ enough information about it.
+ Thus, zuf and zux look the same, but they aren't.
+
+To see more information, use the verbs: $ and: crex
+ (crex is a utility verb which zulu.ijs loads into _z_)...
+)
+($ ; crex) zub	NB. boxed strings
+($ ; crex) zuo	NB. open stringlist (SP-separated string)
+($ ; crex) zuf	NB. LF-separated strings
+($ ; crex) zux	NB. 2D matrix (padded with trailing SP)
+
+NB. =========================================================
+Lab Section PHONETIC
+
+The sandbox has a mini-app consisting of a single verb:
+   phonetic.
+
+It uses the noun: Zulub to convert a string containing text
+ to the International Phonetic Alphabet.
+)
+phonetic 'Hi'
+phonetic 'Testing, testing...'
+
+NB. =========================================================
+Lab Section PHONETIC2
+
+Here is the (explicit) definition of verb: phonetic
+)
+5!:5 <'phonetic'
+
+NB. =========================================================
+Lab Section PURPOSE
+
+The purpose of the sandbox is not merely to offer
+ a useful set of sample nouns, but to help you understand
+ the four main formats for stringlists (lists of strings)
+ and confidently convert between them.
+
+The script: zulu.ijs
+ -has installed a set of converter verbs in locale _z_ .
+ This makes them available for general use, without the need
+ for the sandbox (locale _zulu_).
+)
+zub		NB. a given stringlist...
+b2f zub		NB. boxed-to-LF-separated
+b2o zub		NB. boxed-to-open
+b2x zub		NB. boxed-to-matrix
+
+NB. =========================================================
+Lab Section PURPOSE2
+
+The converted lists are identical to their counterparts in
+ each of the other 3 formats.
+
+This helps towards convenient and confident experimentation.
+)
+assert zuf -: b2f zub		NB. boxed-to-LF-separated
+assert zuo -: b2o zub		NB. boxed-to-open
+assert zux -: b2x zub		NB. boxed-to-matrix
+
+NB. =========================================================
+Lab Section ASSERT
+
+By the way...
+ Verb: assert raises an "assertion failure" error
+ if its argument (of Boolean datatype) is NOT TRUE (i.e. =0).
+ So the previous (true) statements result in empty output.
+
+Re-enter this line:
+   assert zub -: zux
+ to see the result of following "assert" with a FALSE stmt...
+
+ (If we executed this line in this lab, it would halt with
+ an error messagebox)
+)
+
+NB. =========================================================
+Lab Section TABLE*2*
+
+The table below shows you what converter verb you need
+ to convert any given format of stringlist to any other:
+
+      zub zuo zuf zux
+     ┌───┬───┬───┬───┐
+ zub │b2b│b2o│b2f│b2x│
+     ├───┼───┼───┼───┤
+ zuo │o2b│o2o│o2f│o2x│
+     ├───┼───┼───┼───┤
+ zuf │f2b│f2o│f2f│f2x│
+     ├───┼───┼───┼───┤
+ zux │x2b│x2o│x2f│x2x│
+     └───┴───┴───┴───┘
+
+Thus, to convert zuf --> zux - you need: f2x
+
+Notice that, for the sake of completeness,
+ there's even a set of "identity" converters:
+)
+b2b
+o2o
+f2f
+x2x
+
+NB. =========================================================
+Lab Section CONVERTER
+
+The format of a stringlist is called its "zutype".
+ It is a single letter:
+      b		-boxed
+      f		-LF-separated
+      o		-open
+      x		-matrix
+ plus 3 extra "zutypes":
+      m		-empty x-list
+      n		-empty b-list, o-list or f-list
+      -		-not a stringlist
+
+Script: zulu.ijs -has defined a verb: zutype_z_ to let you
+ see the zutype of any given format of stringlist
+ (or indeed of any noun)...
+)
+zutype zub
+zutype zuf
+zutype zuo
+zutype zux
+zutype i.6	NB. not a stringlist
+
+NB. =========================================================
+Lab Section CONVERTER2
+
+NOTE: "trivial" stringlists can have ambiguous zutypes.
+ Thus: '' might be an empty b-list, o-list or f-list.
+ But an empty matrix (eg 0 0 $'') must be an x-list.
+)
+zutype z0o	NB. an empty (1D) stringlist
+zutype z0x	NB. an empty (2D) stringlist
+zutype z1o	NB. a 1-entry (1D) stringlist
+zutype z1x	NB. a 1-entry (2D) stringlist
+
+crex z0b
+crex z0f
+crex z0o
+crex z0x
+
+crex z1b
+crex z1f
+crex z1o
+crex z1x
+
+NB. =========================================================
+Lab Section CONVERTER3
+
+Verb: zutype permits a more general set of converter verbs:
+ a2b  a2f  a2o  a2f
+ -called the a2* converter verbs.
+
+They convert ANY of the supported zutypes to the desired
+stringlist format.
+
+They help you write and distribute utilities
+ that accept ANY argument: y of the 4 supported zutypes,
+ without having to test (zutype y) before choosing the
+ appropriate *2* converter verb to convert y into the format
+ you wish to work with.
+)
+y=. zub
+assert zub -: a2b y
+y=. zuf
+assert zub -: a2b y
+y=. zuo
+assert zub -: a2b y
+y=. zux
+assert zub -: a2b y
+
+NB. =========================================================
+Lab Section CONVERTER4
+
+The converter verbs are named "naturally" for most people.
+
+However this naming system is "back-to-front" when coding J.
+
+Instead of:
+      zux -: o2x zuo	NB. (say: open-to-matrix)
+ you can write instead:
+      zux -: x4o zuo	NB. (say: matrix-for-open)
+ making the 'x-' and '-o' point appropriately towards
+ output and input respectively.
+
+The *4* verbs are easier to read and think of,
+ whether in verb trains, or combinations under @  @: or &
+)
+assert zub -: b4f f4x x4o o4b zub
+	NB. contrast this with:
+assert zub -: f2b x2f o2x b2o zub
+
+NB. =========================================================
+Lab Section TABLE*4*
+
+Here is the corresponding table of *4* verbs...	
+
+      zub zuo zuf zux
+     ┌───┬───┬───┬───┐
+ zub │b4b│o4b│f4b│x4b│
+     ├───┼───┼───┼───┤
+ zuo │b4o│o4o│f4o│x4o│
+     ├───┼───┼───┼───┤
+ zuf │b4f│o4f│f4f│x4f│
+     ├───┼───┼───┼───┤
+ zux │b4x│o4x│f4x│x4x│
+     └───┴───┴───┴───┘
+
+The *4* counterparts of: a2b  a2f  a2o  a2x
+ are:                    b4a  f4a  o4a  x4a
+
+Use whichever you like:
+ -the *2* converter verbs or their *4* synonyms.
+ -In this lab we shall standardize on the *2* verbs.
+)
+
+NB. =========================================================
+Lab Section F_LIST
+
+Holding general data as an f-list.
+
+The (0 : 0) construct lets you represent a wide variety of
+ data in your script.
+
+Unfortunately it terminates with a final LF...
+)
+z=: 0 : 0
+alpha
+bravo
+charlie
+)
+crex z
+assert (}:z) -: zuf	NB. To match: drop final LF from z
+
+NB. =========================================================
+Lab Section F_LIST2
+
+Shall we work with f-strings having a final LF or not?
+  CONVENTION: Always expect final LF...
+        -PRO: count of (LF) is the number of entries.
+        -CON: need to check final LF is really there.
+
+The "zulu" way is to treat final LF as specifying an empty
+ string entry.
+
+Script: zulu.ijs
+ defines 2 verbs in _z_ ...
+     t1f	(say: "terminate in 1 LF")
+     t0f	(say: "terminate in 0 LF's")
+                  t0f STRIPS a final LF if present
+                  (t0f^:_) STRIPS ALL trailing LF's
+)
+crex t1f 'alpha'		NB. force final LF
+crex t1f 'alpha',LF		NB. force final LF
+crex t0f 'alpha',LF,LF,LF	NB. strip (1) final LF
+crex t0f^:_ 'alpha',LF,LF,LF	NB. strip ALL trailing LF's
+
+NB. =========================================================
+Lab Section F_LIST3
+
+Terminating with a final LF does have its advantages.
+ You can make direct use of Cut (;.) to enter a boxed list.
+ (You may see this in published code, not to mention the
+ output of 5!:5 applied to a pronoun, eg 5!:5 <'zub')
+
+Cut (;.) assumes the first (or last) letter of string y
+ is the "fret" - at which the verb u is to be applied...
+)
+z=: (<;._2) 0 : 0
+alpha
+bravo
+charlie
+)
+crex z
+assert zub -: z
+
+NB. =========================================================
+Lab Section F_LIST4
+
+However the "zulu" way to enter a boxed list using (0 : 0)
+ is to drop the final LF and then use: f2b ...
+)
+z=: f2b }: 0 : 0
+alpha
+bravo
+charlie
+)
+crex z
+assert zub -: z
+
+NB. =========================================================
+Lab Section F_LIST5
+
+Other ways to enter a boxed list using (0 : 0)
+(you may see these in published code) ...
+   -use of Jwds (;:)
+   -use of the 'strings' library verb: cut
+)
+require 'strings'
+crex zuo
+assert zub -: (;:zuo)
+assert zub -: (' ' cut zuo)
+assert zub -: cut zuo	NB. default x-arg is ' '
+
+NB. =========================================================
+Lab Section F_LIST6
+
+Entering a number array using (0 : 0)
+
+NOTE: Do/Numbers (".) translates each line of a literal
+ matrix of numerals, giving a number matrix (un-nested).
+ Missing numbers result in padding of the row with 0.
+)
+] z=: ". f2x }: 0 : 0
+100 101 102 103
+110 111 112
+120 121 122 123
+)
+crex z
+
+NB. =========================================================
+Lab Section MEMORY
+
+Memory usage of the 4 stringtypes.
+
+Space used by a b-list may be >4 times the space used by
+ a corresponding f-list or o-list.
+
+Same space is used by a f-list and a corresponding o-list
+ (they differ only in the use of ' ' in place of LF).
+
+Space used by an x-list is scarcely more than that needed
+ to store the literal data it contains.
+ In this sense it resembles an f-list or o-list.
+ But an x-list may use more memory than a corresponding
+ f-list or o-list because all entries are padded with spaces
+ to the length of the longest entry.
+)
+7!:5 ;: 'zub zuf zuo zux'
+7!:5 ;: 'zulub zuluf zuluo zulux'
+
+NB. =========================================================
+Lab Section PROS&CONSb
+
+The b-list: PROS
+      can handle strings like numbers (strings are atoms)
+      no trailing blanks (unless they're part of a string)
+      use of: each -to apply a fn to each string
+      easy to sort and search
+      easy to index
+
+The b-list: CONS
+      more expensive in memory
+      less convenient to input/output in text files
+      less session-handy
+      not session-handy where list or strings is/are long
+       (but can use: list and: >)
+      incompatible with C/C++ code in mapped memory
+)
+NB. =========================================================
+Lab Section PROS&CONSf
+
+The f-list: PROS
+      "natural" for typed-in lines of text
+      economical in memory
+      convenient for text i/o
+      session-handy
+
+The f-list: CONS
+      where individual strings contain LF
+       (but can use CR as an alternative line-end)
+      tricky to index
+      what to do with a final LF?
+)
+NB. =========================================================
+Lab Section PROS&CONSo
+
+The o-list: PROS
+      "natural" for individual words
+       (such as J words and lists of pronouns/proverbs)
+      session-handy for short lists
+      economical in memory
+
+The o-list: CONS
+      what to do where individual strings contain spaces?
+      not session-handy where list or strings is/are long
+       (but can use: list)
+      not session-handy if strings contain quotes ('''')
+      harder to index
+)
+NB. =========================================================
+Lab Section PROS&CONSx
+
+The x-list: PROS
+      economical in memory, unless mx is very ragged
+      verb"0 and verb"1 to work with rows and columns
+      many J operations generalise to an x-list, eg (".)
+
+The x-list: CONS
+      trailing spaces in each row give problems
+      tricky with table lookup, sort and search
+      less convenient for text i/o
+       (unless can assume fixed-width)
+      not session-handy
+       (use: $ to reshape string to fixed-length lines)
+)
+NB. =========================================================
+Lab Section TASKS
+
+Here are a set of sample tasks applied to samples of each of
+ the 4 stringtypes in turn: zub, zuf, zuo, zux...
+
+      Number of entries in the list
+      The first entry
+      The last entry
+      The first 2 entries
+      The last 2 entries
+      Entry having index number 1
+      Index of 'bravo' in the list
+      Add an extra entry at the start of the list
+      Add an extra entry at the end of the list
+      Reverse the entries in the list
+      Permute at random the entries in the list
+
+To save screen space, we shall use the zu* set of nouns.
+ (Try repeating the indexing examples using the corresponding
+  zulu* noun.)
+
+Many of the solutions are over-elaborate or hard for a
+  J beginner to understand.
+ -This shows the scope for converting the given zu* list to
+  a zutype for which the task is simpler to code. (But you
+  may of course not wish to do this if your stringlist is
+  very large.)
+ -In some cases the task is so complicated that we convert to
+  another zutype (usually: b) without trying to avoid it.
+  Such solutions are flagged with: <<<<<<<<<<
+
+NB. =========================================================
+Lab Section TASKSb
+
+Stringtype: b
+
+Notice how this stringtype is the best-suited to most of the
+ tasks. (The next best-suited is stringtype: x) ...
+)
+	NB. Number of entries in the list ...
+#zub
+	NB. The first entry ...
+> {.zub
+	NB. The last entry ...
+> {:zub
+	NB. The first 2 entries ...
+2 {. zub
+	NB. The last 2 entries ...
+_2 {. zub
+	NB. Entry having index number 1 ...
+> 1 { zub
+	NB. (cont'd) ...
+
+NB. =========================================================
+Lab Section TASKSb2
+
+Stringtype: b	(cont'd)
+)
+	NB. Index of 'bravo' in the list ...
+zub i. <'bravo'
+	NB. Add an extra entry at the start of the list ...
+zub ,~ <'extra'
+	NB. Add an extra entry at the end of the list ...
+zub , <'extra'
+	NB. Reverse the entries in the list ...
+|. zub
+	NB. Permute at random the entries in the list ...
+p=: ?~#zub		NB. random permutation
+p { zub
+pr=: ] {~ [: ?~ #	NB. ALTERNATIVELY...
+pr zub
+
+NB. =========================================================
+Lab Section TASKSf
+
+Stringtype: f
+
+Notice how this stringtype is the worst-suited for many of
+ the tasks ...
+)
+	NB. Number of entries in the list ...
++/LF=(t1f zuf)
+>: +/LF=zuf	NB. assuming "zulu" conventions
+	NB. The first entry ...
+require 'strings'
+LF taketo zuf
+	NB. The last entry ...
+|. LF taketo |. zuf
+	NB. The first 2 entries ...
+]i=: 0, I. LF=zuf
+zuf {.~ 2{i
+	NB. The last 2 entries ...
+zuf }.~ >: _2{i
+	NB. Entry having index number 1 ...
+LF taketo zuf }.~ >: 1{i
+
+NB. =========================================================
+Lab Section TASKSf2
+
+Stringtype: f	(cont'd)
+)
+	NB. Index of 'bravo' in the list ...
+caplf=: LF ,~ LF , ]
+i i. <: I. (caplf 'bravo') E. caplf zuf
+	NB. Add an extra entry at the start of the list ...
+'extra',LF,zuf
+	NB. Add an extra entry at the end of the list ...
+zuf,LF,'extra'
+	NB. Reverse the entries in the list ...
+b2f |. f2b zuf	NB. <<<<<<<<<<
+	NB. Permute at random the entries in the list ...
+b2f pr f2b zuf	NB. <<<<<<<<<< (pr as before)
+
+NB. =========================================================
+Lab Section TASKSo
+
+Stringtype: o
+
+Solutions to these tasks bear close resemblance to the
+ corresponding solutions for zuf.
+)
+crex SP_z_	NB. useful constant defined by zulu.ijs
+	NB. Number of entries in the list ...
+>: +/SP=zuo
+	NB. The first entry ...
+require 'strings'
+SP taketo zuo
+	NB. The last entry ...
+|. SP taketo |. zuo
+	NB. The first 2 entries ...
+]i=: 0, I. SP=zuo
+zuo {.~ 2{i
+	NB. The last 2 entries ...
+zuo }.~ >: _2{i
+	NB. Entry having index number 1 ...
+SP taketo zuo }.~ >: 1{i
+
+NB. =========================================================
+Lab Section TASKSo2
+
+Stringtype: o	(cont'd)
+)
+	NB. Index of 'bravo' in the list ...
+capsp=: SP ,~ SP , ]
+i i. <: I. (capsp 'bravo') E. capsp zuo
+	NB. Add an extra entry at the start of the list ...
+'extra',SP,zuo
+	NB. Add an extra entry at the end of the list ...
+zuo,SP,'extra'
+	NB. Reverse the entries in the list ...
+b2o |. o2b zuo	NB. <<<<<<<<<<
+	NB. Permute at random the entries in the list ...
+b2o pr o2b zuo	NB. <<<<<<<<<< (pr as before)
+
+NB. =========================================================
+Lab Section TASKSx
+
+Stringtype: x
+
+Solutions to these tasks bear a close resemblance to the
+ corresponding solutions for zub. (Compare them.)
+)
+	NB. Number of entries in the list ...
+#zux
+	NB. The first entry ...
+{.zux
+	NB. The last entry ...
+{:zux
+	NB. The first 2 entries ...
+2 {. zux
+	NB. The last 2 entries ...
+_2 {. zux
+	NB. Entry having index number 1 ...
+   1 { zux
+   crex 1 { zux	NB. it may have trailing spaces
+   crex dtb 1 { zux
+
+NB. =========================================================
+Lab Section TASKSx2
+
+Stringtype: x	(cont'd)
+)
+	NB. Index of 'bravo' in the list ...
+zux i. ({:$zux) {. 'bravo'
+	NB. Add an extra entry at the start of the list ...
+zux ,~ 'extra'
+	NB. Add an extra entry at the end of the list ...
+zux , 'extra'
+	NB. Reverse the entries in the list ...
+|. zux
+	NB. Permute at random the entries in the list ...
+p=: ?~#zux		NB. random permutation (as for zub)
+p { zux
+pr=: ] {~ [: ?~ #	NB. ALTERNATIVELY (as for zub)...
+pr zux
+
+NB. =========================================================
