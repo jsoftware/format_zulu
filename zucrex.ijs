@@ -12,12 +12,12 @@ crex=: 3 : 0
 	NB. printable lit repn of (string)noun y
 	NB. y is VALUE. For cr-replacement use: crx
 	NB. x=1 reveals diagnostics otherwise hidden
-if. ((1 e. $) +. (0 e. $))y do.		NB. use 5!:5
-  5!:5 <'y' return.
+if. ((1 e. $) +. (0 e. $))y do.
+  5!:5 <'y' return.	NB. use built-in conversion instead
 end.
 require 'strings'	NB. for: rplc
 	NB. Ancillary nouns:
-'QT CM'=: 39 44{a.
+'QT CM'=. 39 44{a.
 	NB. Ancillary verbs:
 paren=. 1 |. ')(' , ":
 q1=. QT , QT ,~ [: ": >
@@ -41,7 +41,13 @@ catch.
     smoutput z
     smoutput '>>> crex: --using instead: 5!:5 <''y'''
   end.
-  5!:5 <'y' return.	NB. use built-in conversion instead
+  z=. 5!:5 <'y'
+	NB. Reject "cut" interpretation of boxed list
+	if. '<;._1' -: 5{.z do.
+NB. 	  smoutput '>>> redoing: ',z
+	  4}. crex (<'~'),y return.
+	end.
+  z return.
 end.
 z
 )

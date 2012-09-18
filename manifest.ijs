@@ -2,7 +2,7 @@ NB. zulu manifest
 
 CAPTION=: 'Strings conversion package'
 
-VERSION=: '0.0.1'
+VERSION=: '0.0.3'
 
 FILES=: 0 : 0
 manifest.ijs
@@ -32,6 +32,6 @@ It is the foundation package for addons:
 
 RELEASE=: 'j602 j701'
 
-LABCATEGORY=: 'format'
+LABCATEGORY=: 'Format'
 
 PLATFORMS=: 'win linux darwin'

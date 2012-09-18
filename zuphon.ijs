@@ -9,9 +9,10 @@ cocurrent 'zulu'	NB. FOR: SANDBOX
 require 'format/zulu/zulun'	NB. to use (long) sample nouns
 
 phonetic=: 3 : 0
-	NB. show text string: y in International Phonetic Alphabet
-ap=. Zulub , ' ' ; '*'
-azs=. 'abcdefghijklmnopqrstuvwxyz '
+	NB. show string: y in International Phonetic Alphabet
+	NB. Non-alpha letters (incl SP) appear as asterisks
+ap=. Zulub , <,'*'
+azs=. 'abcdefghijklmnopqrstuvwxyz'
 b2o ap {~ azs i. tolower y
 )
 
