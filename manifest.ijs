@@ -2,9 +2,11 @@ NB. zulu manifest
 
 CAPTION=: 'Strings conversion package'
 
-VERSION=: '0.0.3'
+VERSION=: '0.0.4'
 
 FILES=: 0 : 0
+bare.ijs
+lite.ijs
 manifest.ijs
 sandbox.ijs
 zu.ijs
@@ -24,10 +26,13 @@ zuvco.ijs
 )
 
 DESCRIPTION=: 0 : 0
-Addon: zulu - is a set of strings conversion verbs
+Addon: zulu - is a set of stringlist conversion verbs
 plus a sandbox of sample data.
-It is the foundation package for addons:
- zulu-lite, zulu-bare.
+Converts consistently between 4 supported forms of stringlist,
+  boxed        eg: 'alpha';'bravo';'charlie'
+  LF-separated eg: 'alpha',LF,'bravo',LF,'charlie'
+  open         eg: 'alpha bravo charlie'
+  matrix       eg: 3 7$'alpha  bravo  charlie'
 )
 
 RELEASE=: 'j602 j701'

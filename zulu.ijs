@@ -17,5 +17,4 @@ load	zp,'zuany'	NB. additional "generic" a2* verbs
 load	zp,'zu4'	NB. *4* aliases
 load	zp,'zutest'	NB. test all interconversions
 
-smoutput '+++ zulu --loaded.'
 
