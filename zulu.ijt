@@ -1,5 +1,5 @@
 LABTITLE=: 'Strings conversion package'
-LABFOCUS=: 0	NB. _1 returns focus to lab
+LABDEPENDS=: 'format/zulu'
 
 NB. =========================================================
 Lab Chapter Basics
@@ -608,7 +608,6 @@ Notice how an f-list is the worst-suited to many of the tasks...
 +/LF=(t1f zuf)
 >: +/LF=zuf	NB. assuming "zulu" conventions
 	NB. The first entry ...
-require 'strings'
 LF taketo zuf
 	NB. The last entry ...
 |. LF taketo |. zuf
@@ -649,7 +648,6 @@ crex SP_z_	NB. useful constant defined by zulu.ijs
 	NB. Number of entries in the list ...
 >: +/SP=zuo
 	NB. The first entry ...
-require 'strings'
 SP taketo zuo
 	NB. The last entry ...
 |. SP taketo |. zuo
@@ -835,7 +833,6 @@ We should mention some other ways to enter a boxed list using (0 : 0)
         -use of Words (;:)
         -use of the library verb: cut
 )
-require 'strings'	NB. (for: cut)
 crex zuo
 assert zub -: (;:zuo)
 assert zub -: (' ' cut zuo)
