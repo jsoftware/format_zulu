@@ -2,7 +2,7 @@ NB. zulu manifest
 
 CAPTION=: 'Strings conversion package'
 
-VERSION=: '0.0.6'
+VERSION=: '0.0.7'
 
 FILES=: 0 : 0
 bare.ijs
@@ -35,7 +35,7 @@ Converts consistently between 4 supported forms of stringlist,
   matrix       eg: 3 7$'alpha  bravo  charlie'
 )
 
-RELEASE=: 'j602 j701 j801'
+RELEASE=: 'j602 j701 j801 j802'
 
 LABCATEGORY=: 'Format'
 
