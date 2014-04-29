@@ -2,7 +2,7 @@ NB. zulu manifest
 
 CAPTION=: 'Strings conversion package'
 
-VERSION=: '0.0.7'
+VERSION=: '0.0.8'
 
 FILES=: 0 : 0
 bare.ijs
@@ -39,4 +39,4 @@ RELEASE=: 'j602 j701 j801 j802'
 
 LABCATEGORY=: 'Format'
 
-PLATFORMS=: 'win linux darwin android'
+PLATFORMS=: ''
