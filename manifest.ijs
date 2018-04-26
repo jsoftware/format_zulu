@@ -35,7 +35,9 @@ Converts consistently between 4 supported forms of stringlist,
   matrix       eg: 3 7$'alpha  bravo  charlie'
 )
 
-RELEASE=: 'j602 j701 j801 j802 j803 j804 j805 j806 j807'
+RELEASE=: ''
+
+FOLDER=: 'format/zulu'
 
 LABCATEGORY=: 'Format'
 
